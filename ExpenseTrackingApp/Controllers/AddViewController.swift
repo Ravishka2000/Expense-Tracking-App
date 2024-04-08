@@ -41,6 +41,9 @@ class AddViewController: UIViewController {
 	}
 	
 	func setupUI() {
+		title = "Add Expense"		
+		view.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
+		
 		titleLabel = UILabel()
 		configureLabel(titleLabel, withText: "Title")
 		titleTextField = createTextField()
@@ -64,16 +67,19 @@ class AddViewController: UIViewController {
 		
 		saveButton = UIButton(type: .system)
 		saveButton.setTitle("Save", for: .normal)
+		saveButton.setTitleColor(.white, for: .normal)
+		saveButton.backgroundColor = UIColor(red: 0.2, green: 0.6, blue: 1.0, alpha: 1.0)
+		saveButton.layer.cornerRadius = 5
 		saveButton.addTarget(self, action: #selector(saveExpense), for: .touchUpInside)
 		
 		let stackView = UIStackView(arrangedSubviews: [titleLabel, titleTextField, subtitleLabel, subtitleTextField, amountLabel, amountTextField, categoryLabel, categoryTextField, createdAtLabel, createdAtTextField, saveButton])
 		stackView.axis = .vertical
-		stackView.spacing = 10
+		stackView.spacing = 20
 		stackView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(stackView)
 		
 		NSLayoutConstraint.activate([
-			stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+			stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
 			stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
 			stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
 		])
@@ -83,7 +89,8 @@ class AddViewController: UIViewController {
 		datePickerToolbar.barStyle = .default
 		datePickerToolbar.sizeToFit()
 		let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(datePickerDoneButtonPressed))
-		datePickerToolbar.setItems([doneButton], animated: false)
+		let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+		datePickerToolbar.setItems([spaceButton, doneButton], animated: false)
 		
 		// Set up date picker
 		datePicker = UIDatePicker()
@@ -97,13 +104,16 @@ class AddViewController: UIViewController {
 	
 	func configureLabel(_ label: UILabel, withText text: String) {
 		label.text = text
-		label.textColor = .gray
+		label.textColor = .darkGray
+		label.font = UIFont.boldSystemFont(ofSize: 16)
 	}
 	
 	func createTextField() -> UITextField {
 		let textField = UITextField()
 		textField.borderStyle = .roundedRect
 		textField.translatesAutoresizingMaskIntoConstraints = false
+		textField.font = UIFont.systemFont(ofSize: 16)
+		textField.backgroundColor = .white
 		return textField
 	}
 	
@@ -137,9 +147,18 @@ class AddViewController: UIViewController {
 		do {
 			try context.save()
 			showAlert(message: "Expense saved successfully.")
+			clearTextFields() // Clear text fields after successful save
 		} catch {
 			showAlert(message: "Failed to save expense.")
 		}
+	}
+	
+	private func clearTextFields() {
+		titleTextField.text = ""
+		subtitleTextField.text = ""
+		amountTextField.text = ""
+		categoryTextField.text = ""
+		createdAtTextField.text = ""
 	}
 	
 	private func showAlert(message: String) {
