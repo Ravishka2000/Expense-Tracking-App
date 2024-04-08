@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC6856AE2BC424E7008D647B /* Expense+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6856AC2BC424E7008D647B /* Expense+CoreDataClass.swift */; };
+		EC6856AF2BC424E7008D647B /* Expense+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6856AD2BC424E7008D647B /* Expense+CoreDataProperties.swift */; };
 		ECCD1BC12BC11F0A00E06757 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD1BC02BC11F0A00E06757 /* AppDelegate.swift */; };
 		ECCD1BC32BC11F0A00E06757 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD1BC22BC11F0A00E06757 /* SceneDelegate.swift */; };
-		ECCD1BC52BC11F0A00E06757 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD1BC42BC11F0A00E06757 /* ViewController.swift */; };
+		ECCD1BC52BC11F0A00E06757 /* ExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD1BC42BC11F0A00E06757 /* ExpenseViewController.swift */; };
 		ECCD1BC82BC11F0A00E06757 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = ECCD1BC72BC11F0A00E06757 /* Base */; };
 		ECCD1BCB2BC11F0A00E06757 /* ExpenseTrackingApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ECCD1BC92BC11F0A00E06757 /* ExpenseTrackingApp.xcdatamodeld */; };
 		ECCD1BCD2BC11F0C00E06757 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECCD1BCC2BC11F0C00E06757 /* Assets.xcassets */; };
@@ -17,6 +19,7 @@
 		ECCD1BDB2BC11F0C00E06757 /* ExpenseTrackingAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD1BDA2BC11F0C00E06757 /* ExpenseTrackingAppTests.swift */; };
 		ECCD1BE52BC11F0C00E06757 /* ExpenseTrackingAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD1BE42BC11F0C00E06757 /* ExpenseTrackingAppUITests.swift */; };
 		ECCD1BE72BC11F0C00E06757 /* ExpenseTrackingAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD1BE62BC11F0C00E06757 /* ExpenseTrackingAppUITestsLaunchTests.swift */; };
+		ECCD1BF42BC1279700E06757 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD1BF32BC1279700E06757 /* AddViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,10 +40,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EC6856AC2BC424E7008D647B /* Expense+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Expense+CoreDataClass.swift"; sourceTree = "<group>"; };
+		EC6856AD2BC424E7008D647B /* Expense+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Expense+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ECCD1BBD2BC11F0A00E06757 /* ExpenseTrackingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExpenseTrackingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECCD1BC02BC11F0A00E06757 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ECCD1BC22BC11F0A00E06757 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		ECCD1BC42BC11F0A00E06757 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		ECCD1BC42BC11F0A00E06757 /* ExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewController.swift; sourceTree = "<group>"; };
 		ECCD1BC72BC11F0A00E06757 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ECCD1BCA2BC11F0A00E06757 /* ExpenseTrackingApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ExpenseTrackingApp.xcdatamodel; sourceTree = "<group>"; };
 		ECCD1BCC2BC11F0C00E06757 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -51,6 +56,7 @@
 		ECCD1BE02BC11F0C00E06757 /* ExpenseTrackingAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExpenseTrackingAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECCD1BE42BC11F0C00E06757 /* ExpenseTrackingAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTrackingAppUITests.swift; sourceTree = "<group>"; };
 		ECCD1BE62BC11F0C00E06757 /* ExpenseTrackingAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTrackingAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		ECCD1BF32BC1279700E06757 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +84,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EC6856B12BC426A3008D647B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EC6856AC2BC424E7008D647B /* Expense+CoreDataClass.swift */,
+				EC6856AD2BC424E7008D647B /* Expense+CoreDataProperties.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EC6856B22BC426B2008D647B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ECCD1BC62BC11F0A00E06757 /* Main.storyboard */,
+				ECCD1BCE2BC11F0C00E06757 /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EC6856B42BC42706008D647B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				ECCD1BC42BC11F0A00E06757 /* ExpenseViewController.swift */,
+				ECCD1BF32BC1279700E06757 /* AddViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		ECCD1BB42BC11F0A00E06757 = {
 			isa = PBXGroup;
 			children = (
@@ -101,12 +134,12 @@
 		ECCD1BBF2BC11F0A00E06757 /* ExpenseTrackingApp */ = {
 			isa = PBXGroup;
 			children = (
+				EC6856B12BC426A3008D647B /* Models */,
+				EC6856B22BC426B2008D647B /* Views */,
+				EC6856B42BC42706008D647B /* Controllers */,
 				ECCD1BC02BC11F0A00E06757 /* AppDelegate.swift */,
 				ECCD1BC22BC11F0A00E06757 /* SceneDelegate.swift */,
-				ECCD1BC42BC11F0A00E06757 /* ViewController.swift */,
-				ECCD1BC62BC11F0A00E06757 /* Main.storyboard */,
 				ECCD1BCC2BC11F0C00E06757 /* Assets.xcassets */,
-				ECCD1BCE2BC11F0C00E06757 /* LaunchScreen.storyboard */,
 				ECCD1BD12BC11F0C00E06757 /* Info.plist */,
 				ECCD1BC92BC11F0A00E06757 /* ExpenseTrackingApp.xcdatamodeld */,
 			);
@@ -261,7 +294,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECCD1BC52BC11F0A00E06757 /* ViewController.swift in Sources */,
+				ECCD1BF42BC1279700E06757 /* AddViewController.swift in Sources */,
+				ECCD1BC52BC11F0A00E06757 /* ExpenseViewController.swift in Sources */,
+				EC6856AE2BC424E7008D647B /* Expense+CoreDataClass.swift in Sources */,
+				EC6856AF2BC424E7008D647B /* Expense+CoreDataProperties.swift in Sources */,
 				ECCD1BC12BC11F0A00E06757 /* AppDelegate.swift in Sources */,
 				ECCD1BC32BC11F0A00E06757 /* SceneDelegate.swift in Sources */,
 				ECCD1BCB2BC11F0A00E06757 /* ExpenseTrackingApp.xcdatamodeld in Sources */,
