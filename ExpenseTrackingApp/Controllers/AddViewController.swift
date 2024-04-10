@@ -24,10 +24,8 @@ class AddViewController: UIViewController {
 	var datePicker: UIDatePicker!
 	var datePickerToolbar: UIToolbar!
 	
-	// Core Data context
 	let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 	
-	// Date formatter
 	let dateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.dateStyle = .medium
@@ -84,7 +82,6 @@ class AddViewController: UIViewController {
 			stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
 		])
 		
-		// Set up toolbar for date picker
 		datePickerToolbar = UIToolbar()
 		datePickerToolbar.barStyle = .default
 		datePickerToolbar.sizeToFit()
@@ -92,12 +89,10 @@ class AddViewController: UIViewController {
 		let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 		datePickerToolbar.setItems([spaceButton, doneButton], animated: false)
 		
-		// Set up date picker
 		datePicker = UIDatePicker()
 		datePicker.datePickerMode = .dateAndTime
 		datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
 		
-		// Assign date picker and its toolbar to the text field
 		createdAtTextField.inputView = datePicker
 		createdAtTextField.inputAccessoryView = datePickerToolbar
 	}
@@ -147,7 +142,7 @@ class AddViewController: UIViewController {
 		do {
 			try context.save()
 			showAlert(message: "Expense saved successfully.")
-			clearTextFields() // Clear text fields after successful save
+			clearTextFields()
 		} catch {
 			showAlert(message: "Failed to save expense.")
 		}

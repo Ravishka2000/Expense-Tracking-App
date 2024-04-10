@@ -17,9 +17,12 @@ class ExpenseCardView: UIView {
 	var editButton: UIButton!
 	var deleteButton: UIButton!
 	
-	init(expense: Expense) {
+	var parentViewController: UIViewController? // Added property
+	
+	init(expense: Expense, parentViewController: UIViewController) { // Updated initializer
 		super.init(frame: .zero)
 		self.expense = expense
+		self.parentViewController = parentViewController // Assign parent view controller
 		setupUI()
 	}
 	
@@ -105,8 +108,57 @@ class ExpenseCardView: UIView {
 	}
 	
 	@objc func editButtonTapped() {
+		let alertController = UIAlertController(title: "Edit Expense", message: nil, preferredStyle: .alert)
+		alertController.addTextField { textField in
+			textField.placeholder = "Title"
+			textField.text = self.expense.title
+		}
+		alertController.addTextField { textField in
+			textField.placeholder = "Amount"
+			textField.text = String(self.expense.amount)
+			textField.keyboardType = .decimalPad
+		}
+		alertController.addTextField { textField in
+			textField.placeholder = "Category"
+			textField.text = self.expense.category
+		}
 		
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+			guard let title = alertController.textFields?[0].text, !title.isEmpty,
+				  let amountString = alertController.textFields?[1].text, let amount = Double(amountString),
+				  let category = alertController.textFields?[2].text
+			else {
+				// Handle invalid input
+				return
+			}
+			
+			self.expense.title = title
+			self.expense.amount = amount
+			self.expense.category = category
+			
+			// Save the updated expense
+			if let context = self.expense.managedObjectContext {
+				do {
+					try context.save()
+				} catch {
+					print("Failed to save context: \(error.localizedDescription)")
+				}
+			}
+			
+			// Update UI with new expense details
+			self.titleLabel.text = title
+			self.amountLabel.text = String(format: "$%.2f", amount)
+			self.categoryLabel.text = category
+		}
+		
+		alertController.addAction(cancelAction)
+		alertController.addAction(saveAction)
+		
+		// Present the alert using parent view controller
+		parentViewController?.present(alertController, animated: true, completion: nil)
 	}
+
 	
 	@objc func deleteButtonTapped() {
 		if let context = expense.managedObjectContext {

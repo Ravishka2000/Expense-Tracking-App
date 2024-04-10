@@ -14,6 +14,7 @@ class ExpenseViewController: UIViewController {
 	var scrollView: UIScrollView!
 	var stackView: UIStackView!
 	var refreshControl: UIRefreshControl!
+	var sortedExpenses: [Expense] = []
 	
 	let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 	
@@ -48,15 +49,17 @@ class ExpenseViewController: UIViewController {
 		refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
 		scrollView.refreshControl = refreshControl
 		
+		let padding: CGFloat = 20 // Adjust padding as needed
+		
 		NSLayoutConstraint.activate([
-			summaryLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-			summaryLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-			summaryLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+			summaryLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
+			summaryLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+			summaryLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
 			
-			scrollView.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 20),
-			scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-			scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+			scrollView.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: padding),
+			scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+			scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+			scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -padding),
 			
 			stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
 			stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
@@ -68,21 +71,65 @@ class ExpenseViewController: UIViewController {
 	
 	func fetchExpenses() {
 		do {
-			let expenses = try context.fetch(Expense.fetchRequest()) as [Expense]
-			updateUI(with: expenses)
+			let expenses = try context.fetch(Expense.fetchRequest()) as! [Expense]
+			sortedExpenses = expenses.sorted { $0.createdAt! > $1.createdAt! } // Sort expenses by creation date descending
+			updateUI(with: sortedExpenses)
 		} catch {
 			print("Failed to fetch expenses: \(error.localizedDescription)")
 		}
 	}
 	
 	func updateUI(with expenses: [Expense]) {
-		// Clear previous data
 		stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
 		
-		for expense in expenses {
-			let expenseView = ExpenseCardView(expense: expense)
-			stackView.addArrangedSubview(expenseView)
+		let groupedExpenses = groupExpensesByDate(expenses)
+		
+		var totalExpenses: Double = 0
+		
+		for (sectionTitle, sectionExpenses) in groupedExpenses {
+			if sectionExpenses.isEmpty {
+				continue
+			}
+			
+			let sectionLabel = UILabel()
+			sectionLabel.text = sectionTitle
+			sectionLabel.font = UIFont.boldSystemFont(ofSize: 16)
+			sectionLabel.textColor = .gray
+			stackView.addArrangedSubview(sectionLabel)
+			
+			for expense in sectionExpenses {
+				totalExpenses += expense.amount
+				let expenseView = ExpenseCardView(expense: expense, parentViewController: self) // Pass self as parent view controller
+				stackView.addArrangedSubview(expenseView)
+			}
 		}
+		
+		summaryLabel.text = String(format: "Total Expenses: $%.2f", totalExpenses)
+	}
+	
+	func groupExpensesByDate(_ expenses: [Expense]) -> [String: [Expense]] {
+		var groupedExpenses = [String: [Expense]]()
+		
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "d MMMM yyyy"
+		
+		for expense in expenses {
+			let dateKey: String
+			if Calendar.current.isDateInToday(expense.createdAt!) {
+				dateKey = "Today"
+			} else {
+				dateKey = dateFormatter.string(from: expense.createdAt!)
+			}
+			
+			if var existingExpenses = groupedExpenses[dateKey] {
+				existingExpenses.append(expense)
+				groupedExpenses[dateKey] = existingExpenses
+			} else {
+				groupedExpenses[dateKey] = [expense]
+			}
+		}
+		
+		return groupedExpenses
 	}
 	
 	@objc func refreshData() {
