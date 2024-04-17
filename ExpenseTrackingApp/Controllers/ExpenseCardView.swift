@@ -17,12 +17,12 @@ class ExpenseCardView: UIView {
 	var editButton: UIButton!
 	var deleteButton: UIButton!
 	
-	var parentViewController: UIViewController? // Added property
+	var parentViewController: UIViewController?
 	
-	init(expense: Expense, parentViewController: UIViewController) { // Updated initializer
+	init(expense: Expense, parentViewController: UIViewController) {
 		super.init(frame: .zero)
 		self.expense = expense
-		self.parentViewController = parentViewController // Assign parent view controller
+		self.parentViewController = parentViewController
 		setupUI()
 	}
 	
@@ -31,69 +31,23 @@ class ExpenseCardView: UIView {
 	}
 	
 	func setupUI() {
-		backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
+		backgroundColor = .white
 		layer.cornerRadius = 20
 		layer.masksToBounds = true
 		
-		titleLabel = UILabel()
-		titleLabel.text = expense.title
-		titleLabel.font = UIFont.boldSystemFont(ofSize: 24)
-		titleLabel.textAlignment = .left
-		titleLabel.numberOfLines = 0
+		titleLabel = createLabel(text: expense.title, font: UIFont.boldSystemFont(ofSize: 24), alignment: .left)
+		amountLabel = createLabel(text: String(format: "$%.2f", expense.amount), font: UIFont.boldSystemFont(ofSize: 24), alignment: .right)
+		categoryLabel = createLabel(text: expense.category ?? "", font: UIFont.systemFont(ofSize: 16), alignment: .left)
+		createdAtLabel = createLabel(text: formatDate(expense.createdAt), font: UIFont.systemFont(ofSize: 14), alignment: .right)
+		editButton = createButton(title: "Edit", backgroundColor: .systemBlue, action: #selector(editButtonTapped))
+		deleteButton = createButton(title: "Delete", backgroundColor: .systemRed, action: #selector(deleteButtonTapped))
 		
-		amountLabel = UILabel()
-		amountLabel.text = String(format: "$%.2f", expense.amount)
-		amountLabel.font = UIFont.boldSystemFont(ofSize: 24)
-		amountLabel.textAlignment = .right
+		let labelStackView1 = createStackView(arrangedSubviews: [titleLabel, amountLabel])
+		let labelStackView2 = createStackView(arrangedSubviews: [categoryLabel, createdAtLabel], spacing: 50)
+		let buttonStackView = createStackView(arrangedSubviews: [editButton, deleteButton], spacing: 50)
 		
-		categoryLabel = UILabel()
-		categoryLabel.text = "\(String(describing: expense.category!))"
-		categoryLabel.font = UIFont.systemFont(ofSize: 16)
-		categoryLabel.textAlignment = .left
+		let contentStackView = createStackView(arrangedSubviews: [labelStackView1, labelStackView2, buttonStackView], axis: .vertical, spacing: 20)
 		
-		let formatter = DateFormatter()
-		formatter.dateStyle = .medium
-		formatter.timeStyle = .none
-		let createdAtString = formatter.string(from: expense.createdAt ?? Date())
-		
-		createdAtLabel = UILabel()
-		createdAtLabel.text = "\(createdAtString)"
-		createdAtLabel.font = UIFont.systemFont(ofSize: 14)
-		createdAtLabel.textAlignment = .right
-		
-		editButton = UIButton(type: .system)
-		editButton.setTitle("Edit", for: .normal)
-		editButton.setTitleColor(.white, for: .normal)
-		editButton.backgroundColor = .systemBlue
-		editButton.layer.cornerRadius = 10
-		
-		deleteButton = UIButton(type: .system)
-		deleteButton.setTitle("Delete", for: .normal)
-		deleteButton.setTitleColor(.white, for: .normal)
-		deleteButton.backgroundColor = .systemRed
-		deleteButton.layer.cornerRadius = 10
-		
-		let labelStackView1 = UIStackView(arrangedSubviews: [titleLabel, amountLabel])
-		labelStackView1.axis = .horizontal
-		labelStackView1.distribution = .fillEqually
-		
-		let labelStackView2 = UIStackView(arrangedSubviews: [categoryLabel, createdAtLabel])
-		labelStackView2.axis = .horizontal
-		labelStackView2.spacing = 50
-		labelStackView2.distribution = .fillEqually
-		
-		let buttonStackView = UIStackView(arrangedSubviews: [editButton, deleteButton])
-		buttonStackView.axis = .horizontal
-		buttonStackView.spacing = 50
-		buttonStackView.distribution = .fillEqually
-		
-		editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
-		deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
-		
-		let contentStackView = UIStackView(arrangedSubviews: [labelStackView1, labelStackView2, buttonStackView])
-		contentStackView.axis = .vertical
-		contentStackView.spacing = 20
-		contentStackView.alignment = .fill
 		addSubview(contentStackView)
 		
 		contentStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +61,44 @@ class ExpenseCardView: UIView {
 		])
 	}
 	
-	@objc func editButtonTapped() {
+	private func createLabel(text: String?, font: UIFont, alignment: NSTextAlignment) -> UILabel {
+		let label = UILabel()
+		label.text = text
+		label.font = font
+		label.textAlignment = alignment
+		label.numberOfLines = 0
+		return label
+	}
+	
+	private func createButton(title: String, backgroundColor: UIColor, action: Selector) -> UIButton {
+		let button = UIButton(type: .system)
+		button.setTitle(title, for: .normal)
+		button.setTitleColor(.white, for: .normal)
+		button.backgroundColor = backgroundColor
+		button.layer.cornerRadius = 10
+		button.addTarget(self, action: action, for: .touchUpInside)
+		return button
+	}
+	
+	private func createStackView(arrangedSubviews: [UIView], axis: NSLayoutConstraint.Axis = .horizontal, spacing: CGFloat = 0) -> UIStackView {
+		let stackView = UIStackView(arrangedSubviews: arrangedSubviews)
+		stackView.axis = axis
+		stackView.spacing = spacing
+		stackView.distribution = .fillEqually
+		return stackView
+	}
+	
+	private func formatDate(_ date: Date?) -> String {
+		guard let date = date else {
+			return ""
+		}
+		let formatter = DateFormatter()
+		formatter.dateStyle = .medium
+		formatter.timeStyle = .none
+		return formatter.string(from: date)
+	}
+		
+	@objc private func editButtonTapped() {
 		let alertController = UIAlertController(title: "Edit Expense", message: nil, preferredStyle: .alert)
 		alertController.addTextField { textField in
 			textField.placeholder = "Title"
@@ -129,7 +120,7 @@ class ExpenseCardView: UIView {
 				  let amountString = alertController.textFields?[1].text, let amount = Double(amountString),
 				  let category = alertController.textFields?[2].text
 			else {
-				// Handle invalid input
+				self.showErrorAlert(message: "Invalid input. Please fill in all fields.")
 				return
 			}
 			
@@ -137,40 +128,59 @@ class ExpenseCardView: UIView {
 			self.expense.amount = amount
 			self.expense.category = category
 			
-			// Save the updated expense
 			if let context = self.expense.managedObjectContext {
 				do {
 					try context.save()
+					UIView.transition(with: self.titleLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
+						self.titleLabel.text = title
+					})
+					UIView.transition(with: self.amountLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
+						self.amountLabel.text = String(format: "$%.2f", amount)
+					})
+					UIView.transition(with: self.categoryLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
+						self.categoryLabel.text = category
+					})
 				} catch {
-					print("Failed to save context: \(error.localizedDescription)")
+					self.showErrorAlert(message: "Failed to save changes.")
 				}
 			}
-			
-			// Update UI with new expense details
-			self.titleLabel.text = title
-			self.amountLabel.text = String(format: "$%.2f", amount)
-			self.categoryLabel.text = category
 		}
 		
 		alertController.addAction(cancelAction)
 		alertController.addAction(saveAction)
 		
-		// Present the alert using parent view controller
 		parentViewController?.present(alertController, animated: true, completion: nil)
 	}
-
 	
-	@objc func deleteButtonTapped() {
-		if let context = expense.managedObjectContext {
-			context.delete(expense)
-			
-			do {
-				try context.save()
-			} catch {
-				print("Failed to save context: \(error.localizedDescription)")
+	@objc private func deleteButtonTapped() {
+		let confirmationAlert = UIAlertController(title: "Confirm Deletion", message: "Are you sure you want to delete this expense?", preferredStyle: .alert)
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+			if let context = self.expense.managedObjectContext {
+				context.delete(self.expense)
+				
+				do {
+					try context.save()
+					UIView.animate(withDuration: 0.3, animations: {
+						self.alpha = 0
+					}) { _ in
+						self.removeFromSuperview()
+					}
+				} catch {
+					self.showErrorAlert(message: "Failed to delete expense.")
+				}
 			}
 		}
-		
-		removeFromSuperview()
+		confirmationAlert.addAction(cancelAction)
+		confirmationAlert.addAction(deleteAction)
+		parentViewController?.present(confirmationAlert, animated: true, completion: nil)
 	}
+	
+	private func showErrorAlert(message: String) {
+		let errorAlert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+		let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+		errorAlert.addAction(okAction)
+		parentViewController?.present(errorAlert, animated: true, completion: nil)
+	}
+
 }

@@ -10,13 +10,13 @@ import CoreData
 
 class ExpenseViewController: UIViewController {
 	
-	var summaryLabel: UILabel!
-	var scrollView: UIScrollView!
-	var stackView: UIStackView!
-	var refreshControl: UIRefreshControl!
-	var sortedExpenses: [Expense] = []
+	private var summaryLabel: UILabel!
+	private var scrollView: UIScrollView!
+	private var stackView: UIStackView!
+	private var refreshControl: UIRefreshControl!
+	private var sortedExpenses: [Expense] = []
 	
-	let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+	private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -24,14 +24,15 @@ class ExpenseViewController: UIViewController {
 		fetchExpenses()
 	}
 	
-	func setupUI() {
-		view.backgroundColor = .white
+	private func setupUI() {
+		view.backgroundColor = .systemGray6
 		title = "Expenses"
 		
 		summaryLabel = UILabel()
 		summaryLabel.text = "Total Expenses: $0.00"
-		summaryLabel.font = UIFont.systemFont(ofSize: 18)
+		summaryLabel.font = UIFont(name: "AvenirNext-Bold", size: 22)
 		summaryLabel.textAlignment = .center
+		summaryLabel.textColor = .systemBlue
 		summaryLabel.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(summaryLabel)
 		
@@ -42,6 +43,7 @@ class ExpenseViewController: UIViewController {
 		
 		scrollView = UIScrollView()
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
+		scrollView.showsVerticalScrollIndicator = false
 		scrollView.addSubview(stackView)
 		view.addSubview(scrollView)
 		
@@ -49,7 +51,7 @@ class ExpenseViewController: UIViewController {
 		refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
 		scrollView.refreshControl = refreshControl
 		
-		let padding: CGFloat = 20 // Adjust padding as needed
+		let padding: CGFloat = 20
 		
 		NSLayoutConstraint.activate([
 			summaryLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
@@ -69,17 +71,17 @@ class ExpenseViewController: UIViewController {
 		])
 	}
 	
-	func fetchExpenses() {
+	private func fetchExpenses() {
 		do {
 			let expenses = try context.fetch(Expense.fetchRequest()) as! [Expense]
-			sortedExpenses = expenses.sorted { $0.createdAt! > $1.createdAt! } // Sort expenses by creation date descending
+			sortedExpenses = expenses.sorted { $0.createdAt! > $1.createdAt! }
 			updateUI(with: sortedExpenses)
 		} catch {
-			print("Failed to fetch expenses: \(error.localizedDescription)")
+			showAlert(title: "Error", message: "Failed to fetch expenses. \(error.localizedDescription)")
 		}
 	}
 	
-	func updateUI(with expenses: [Expense]) {
+	private func updateUI(with expenses: [Expense]) {
 		stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
 		
 		let groupedExpenses = groupExpensesByDate(expenses)
@@ -93,13 +95,13 @@ class ExpenseViewController: UIViewController {
 			
 			let sectionLabel = UILabel()
 			sectionLabel.text = sectionTitle
-			sectionLabel.font = UIFont.boldSystemFont(ofSize: 16)
-			sectionLabel.textColor = .gray
+			sectionLabel.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+			sectionLabel.textColor = .systemGray
 			stackView.addArrangedSubview(sectionLabel)
 			
 			for expense in sectionExpenses {
 				totalExpenses += expense.amount
-				let expenseView = ExpenseCardView(expense: expense, parentViewController: self) // Pass self as parent view controller
+				let expenseView = ExpenseCardView(expense: expense, parentViewController: self)
 				stackView.addArrangedSubview(expenseView)
 			}
 		}
@@ -107,19 +109,14 @@ class ExpenseViewController: UIViewController {
 		summaryLabel.text = String(format: "Total Expenses: $%.2f", totalExpenses)
 	}
 	
-	func groupExpensesByDate(_ expenses: [Expense]) -> [String: [Expense]] {
+	private func groupExpensesByDate(_ expenses: [Expense]) -> [String: [Expense]] {
 		var groupedExpenses = [String: [Expense]]()
 		
 		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "d MMMM yyyy"
+		dateFormatter.dateFormat = "MMMM dd, yyyy"
 		
 		for expense in expenses {
-			let dateKey: String
-			if Calendar.current.isDateInToday(expense.createdAt!) {
-				dateKey = "Today"
-			} else {
-				dateKey = dateFormatter.string(from: expense.createdAt!)
-			}
+			let dateKey = dateFormatter.string(from: expense.createdAt!)
 			
 			if var existingExpenses = groupedExpenses[dateKey] {
 				existingExpenses.append(expense)
@@ -132,8 +129,15 @@ class ExpenseViewController: UIViewController {
 		return groupedExpenses
 	}
 	
-	@objc func refreshData() {
+	@objc private func refreshData() {
 		fetchExpenses()
 		refreshControl.endRefreshing()
+	}
+	
+	private func showAlert(title: String, message: String) {
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+		alertController.addAction(okAction)
+		present(alertController, animated: true, completion: nil)
 	}
 }

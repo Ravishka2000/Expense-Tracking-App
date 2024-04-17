@@ -7,30 +7,75 @@
 
 import XCTest
 @testable import ExpenseTrackingApp
+import CoreData
 
 final class ExpenseTrackingAppTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+	
+	var expenseViewController: ExpenseViewController!
+	var expenseCardView: ExpenseCardView!
+	var addViewController: AddViewController!
+	
+	override func setUpWithError() throws {
+		expenseViewController = ExpenseViewController()
+		expenseViewController.loadViewIfNeeded()
+		
+		let appDelegate = UIApplication.shared.delegate as! AppDelegate
+		let managedObjectContext = appDelegate.persistentContainer.viewContext
+		
+		let mockExpense = Expense(context: managedObjectContext)
+		mockExpense.title = "Mock Expense"
+		mockExpense.amount = 100.0
+		mockExpense.category = "Mock Category"
+		mockExpense.createdAt = Date()
+		
+		expenseCardView = ExpenseCardView(expense: mockExpense, parentViewController: UIViewController())
+		expenseCardView.layoutIfNeeded()
+		
+		addViewController = AddViewController()
+		addViewController.loadViewIfNeeded()
+	}
+	
+	override func tearDownWithError() throws {
+		expenseViewController = nil
+		expenseCardView = nil
+		addViewController = nil
+	}
+	
+	func testExpenseViewController_WhenLoaded_SummaryLabelIsDisplayed() throws {
+		XCTAssertNotNil(expenseViewController.summaryLabel)
+	}
+	
+	func testExpenseViewController_WhenLoaded_StackViewIsDisplayed() throws {
+		XCTAssertNotNil(expenseViewController.stackView)
+	}
+	
+	func testExpenseViewController_WhenLoaded_ScrollViewIsDisplayed() throws {
+		XCTAssertNotNil(expenseViewController.scrollView)
+	}
+	
+	
+	func testExpenseCardView_WhenLoaded_TitleLabelIsDisplayed() throws {
+		XCTAssertNotNil(expenseCardView.titleLabel)
+	}
+	
+	func testExpenseCardView_WhenLoaded_AmountLabelIsDisplayed() throws {
+		XCTAssertNotNil(expenseCardView.amountLabel)
+	}
+	
+	func testExpenseCardView_WhenLoaded_CategoryLabelIsDisplayed() throws {
+		XCTAssertNotNil(expenseCardView.categoryLabel)
+	}
+	
+	
+	func testAddViewController_WhenLoaded_TitleLabelIsDisplayed() throws {
+		XCTAssertNotNil(addViewController.titleLabel)
+	}
+	
+	func testAddViewController_WhenLoaded_TitleTextFieldIsDisplayed() throws {
+		XCTAssertNotNil(addViewController.titleTextField)
+	}
+	
+	func testAddViewController_WhenLoaded_AmountLabelIsDisplayed() throws {
+		XCTAssertNotNil(addViewController.amountLabel)
+	}
 }
