@@ -32,7 +32,7 @@ class ExpenseViewController: UIViewController {
 		summaryLabel.text = "Total Expenses: $0.00"
 		summaryLabel.font = UIFont(name: "AvenirNext-Bold", size: 22)
 		summaryLabel.textAlignment = .center
-		summaryLabel.textColor = .systemBlue
+		summaryLabel.textColor = UIColor(red: 0.2235, green: 0.2431, blue: 0.2745, alpha: 1.0)
 		summaryLabel.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(summaryLabel)
 		
@@ -95,7 +95,7 @@ class ExpenseViewController: UIViewController {
 			
 			let sectionLabel = UILabel()
 			sectionLabel.text = sectionTitle
-			sectionLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+			sectionLabel.font = UIFont.systemFont(ofSize: 16, weight: .light)
 			sectionLabel.textColor = .systemGray
 			stackView.addArrangedSubview(sectionLabel)
 			

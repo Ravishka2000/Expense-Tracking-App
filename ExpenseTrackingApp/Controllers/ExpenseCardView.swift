@@ -33,12 +33,9 @@ class ExpenseCardView: UIView {
 	}
 	
 	func setupUI() {
-		backgroundColor = UIColor(white: 1.0, alpha: 0.95)
+		backgroundColor = UIColor(red: 0, green: 0.6784, blue: 0.7098, alpha: 1.0)
 		layer.cornerRadius = 15
-		layer.shadowColor = UIColor.black.cgColor
-		layer.shadowOpacity = 0.3
-		layer.shadowOffset = CGSize(width: 0, height: 2)
-		layer.shadowRadius = 4
+	
 		
 		titleLabel = createLabel(text: expense.title, font: UIFont.boldSystemFont(ofSize: 18), alignment: .left)
 		amountLabel = createLabel(text: String(format: "$%.2f", expense.amount), font: UIFont.boldSystemFont(ofSize: 18), alignment: .right)
@@ -76,22 +73,22 @@ class ExpenseCardView: UIView {
 		label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
 		label.textAlignment = .center
 		label.textColor = .white
-		label.layer.cornerRadius = 15
+		label.layer.cornerRadius = 10
 		label.layer.masksToBounds = true
 		
 		switch text {
 		case "Grocery":
-			label.backgroundColor = UIColor.systemGreen
+			label.backgroundColor = UIColor(red: 0.2706, green: 0.098, blue: 0.3216, alpha: 1.0)
 		case "Electronics":
-			label.backgroundColor = UIColor.systemOrange
+			label.backgroundColor = UIColor(red: 0.9529, green: 0.6235, blue: 0.3529, alpha: 1.0)
 		case "Foods":
-			label.backgroundColor = UIColor.systemBlue
+			label.backgroundColor = UIColor(red: 0.6824, green: 0.2667, blue: 0.3529, alpha: 1.0)
 		default:
-			label.backgroundColor = UIColor.systemGray
+			label.backgroundColor = UIColor(red: 0.3608, green: 0.2745, blue: 0.6118, alpha: 1.0)
 		}
 		
 		label.sizeToFit()
-		label.layer.cornerRadius = 18
+		label.layer.cornerRadius = 10
 		return label
 	}
 	
@@ -187,13 +184,13 @@ class ExpenseCardView: UIView {
 	private func updateCategoryBadge(_ category: String?) {
 		switch category {
 		case "Grocery":
-			categoryLabel.backgroundColor = UIColor.systemGreen
+			categoryLabel.backgroundColor = UIColor(red: 0.2706, green: 0.098, blue: 0.3216, alpha: 1.0)
 		case "Electronics":
-			categoryLabel.backgroundColor = UIColor.systemOrange
+			categoryLabel.backgroundColor = UIColor(red: 0.9529, green: 0.6235, blue: 0.3529, alpha: 1.0)
 		case "Foods":
-			categoryLabel.backgroundColor = UIColor.systemBlue
+			categoryLabel.backgroundColor = UIColor(red: 0.6824, green: 0.2667, blue: 0.3529, alpha: 1.0)
 		default:
-			categoryLabel.backgroundColor = UIColor.systemGray
+			categoryLabel.backgroundColor = UIColor(red: 0.3608, green: 0.2745, blue: 0.6118, alpha: 1.0)
 		}
 	}
 	

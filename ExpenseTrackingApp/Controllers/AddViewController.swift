@@ -10,12 +10,11 @@ import CoreData
 
 class AddViewController: UIViewController {
 	
-	var titleLabel: UILabel!
-	var titleTextField: UITextField!
+	private var titleLabel: UILabel!
+	private var titleTextField: UITextField!
 	private var subtitleLabel: UILabel!
 	private var subtitleTextField: UITextField!
-	var amountLabel: UILabel!
-	private var amountStackView: UIStackView!
+	private var amountLabel: UILabel!
 	private var amountTextField: UITextField!
 	private var increaseButton: UIButton!
 	private var decreaseButton: UIButton!
@@ -33,11 +32,11 @@ class AddViewController: UIViewController {
 	private let dateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.dateStyle = .medium
-		formatter.timeStyle = .medium
+		formatter.timeStyle = .none
 		return formatter
 	}()
 	
-	private let categories = ["Glocery", "Electronics", "Foods", "Others"]
+	private let categories = ["Grocery", "Electronics", "Foods", "Others"]
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -60,7 +59,7 @@ class AddViewController: UIViewController {
 		
 		increaseButton = createButton(withTitle: "+")
 		decreaseButton = createButton(withTitle: "-")
-		amountStackView = UIStackView(arrangedSubviews: [decreaseButton, amountTextField, increaseButton])
+		let amountStackView = UIStackView(arrangedSubviews: [decreaseButton, amountTextField, increaseButton])
 		amountStackView.axis = .horizontal
 		amountStackView.spacing = 8
 		
@@ -73,7 +72,7 @@ class AddViewController: UIViewController {
 		
 		createdAtLabel = createLabel(withText: "Created At")
 		datePicker = UIDatePicker()
-		datePicker.datePickerMode = .dateAndTime
+		datePicker.datePickerMode = .date
 		datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
 		createdAtTextField = createTextField()
 		createdAtTextField.inputView = datePicker
@@ -81,9 +80,27 @@ class AddViewController: UIViewController {
 		saveButton = UIButton(type: .system)
 		saveButton.setTitle("Save", for: .normal)
 		saveButton.setTitleColor(.white, for: .normal)
-		saveButton.backgroundColor = UIColor(red: 0.2, green: 0.6, blue: 1.0, alpha: 1.0)
+		saveButton.backgroundColor = UIColor(red: 0, green: 0.6784, blue: 0.7098, alpha: 1.0)
 		saveButton.layer.cornerRadius = 5
 		saveButton.addTarget(self, action: #selector(saveExpense), for: .touchUpInside)
+		
+		let categoryToolbar = UIToolbar()
+		categoryToolbar.barStyle = .default
+		categoryToolbar.isTranslucent = true
+		categoryToolbar.sizeToFit()
+		let categoryDoneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(categoryPickerDone))
+		categoryToolbar.setItems([categoryDoneButton], animated: false)
+		categoryToolbar.isUserInteractionEnabled = true
+		categoryTextField.inputAccessoryView = categoryToolbar
+		
+		let dateToolbar = UIToolbar()
+		dateToolbar.barStyle = .default
+		dateToolbar.isTranslucent = true
+		dateToolbar.sizeToFit()
+		let dateDoneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(datePickerDone))
+		dateToolbar.setItems([dateDoneButton], animated: false)
+		dateToolbar.isUserInteractionEnabled = true
+		createdAtTextField.inputAccessoryView = dateToolbar
 		
 		let stackView = UIStackView(arrangedSubviews: [titleLabel, titleTextField, subtitleLabel, subtitleTextField, amountLabel, amountStackView, categoryLabel, categoryTextField, createdAtLabel, createdAtTextField, saveButton])
 		stackView.axis = .vertical
@@ -120,7 +137,7 @@ class AddViewController: UIViewController {
 		button.setTitle(title, for: .normal)
 		button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
 		button.setTitleColor(.white, for: .normal)
-		button.backgroundColor = UIColor(red: 0.2, green: 0.6, blue: 1.0, alpha: 1.0)
+		button.backgroundColor = UIColor(red: 0, green: 0.6784, blue: 0.7098, alpha: 1.0)
 		button.layer.cornerRadius = 5
 		button.addTarget(self, action: #selector(amountButtonTapped(_:)), for: .touchUpInside)
 		button.widthAnchor.constraint(equalToConstant: 44).isActive = true
@@ -172,6 +189,19 @@ class AddViewController: UIViewController {
 		amountTextField.text = String(format: "%.2f", amount)
 	}
 	
+	@objc private func categoryPickerDone() {
+		if categoryTextField.text == "" {
+			categoryTextField.text = categories[0]
+			pickerView(categoryPicker, didSelectRow: 0, inComponent: 0)
+		}
+		view.endEditing(true)
+	}
+	
+	@objc private func datePickerDone() {
+		createdAtTextField.text = dateFormatter.string(from: Date())
+		view.endEditing(true)
+	}
+
 	private func clearTextFields() {
 		titleTextField.text = ""
 		subtitleTextField.text = ""
@@ -202,5 +232,9 @@ extension AddViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 	
 	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 		categoryTextField.text = categories[row]
+	}
+	
+	func pickerView(_ pickerView: UIPickerView, didClickInComponent component: Int) {
+		categoryTextField.text = categories[0]
 	}
 }
