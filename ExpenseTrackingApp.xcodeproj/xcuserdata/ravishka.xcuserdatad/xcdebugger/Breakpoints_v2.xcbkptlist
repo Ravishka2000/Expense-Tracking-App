@@ -3,4 +3,80 @@
    uuid = "7FB606A9-9258-4C76-9859-489BED460748"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BBB00070-1537-4E21-838C-2A7F2DB63E28"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ExpenseTrackingApp/Controllers/ExpenseCardView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "11"
+            endingLineNumber = "11"
+            landmarkName = "ExpenseCardView"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "BBB00070-1537-4E21-838C-2A7F2DB63E28 - d81ceb6ddaa1d0c0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ExpenseTrackingApp.ExpenseCardView.expense.getter : Swift.Optional&lt;ExpenseTrackingApp.Expense&gt;"
+                  moduleName = "ExpenseTrackingApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ravishka/Documents/MADD/Projects/ExpenseTrackingApp/ExpenseTrackingApp/Controllers/ExpenseCardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "BBB00070-1537-4E21-838C-2A7F2DB63E28 - efdf2f8bd1337a68"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ExpenseTrackingApp.ExpenseCardView.expense.setter : Swift.Optional&lt;ExpenseTrackingApp.Expense&gt;"
+                  moduleName = "ExpenseTrackingApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ravishka/Documents/MADD/Projects/ExpenseTrackingApp/ExpenseTrackingApp/Controllers/ExpenseCardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12"
+                  endingLineNumber = "12">
+               </Location>
+               <Location
+                  uuid = "BBB00070-1537-4E21-838C-2A7F2DB63E28 - df7d4ad2cd05877"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ExpenseTrackingApp.ExpenseCardView.expense.modify : Swift.Optional&lt;ExpenseTrackingApp.Expense&gt;"
+                  moduleName = "ExpenseTrackingApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ravishka/Documents/MADD/Projects/ExpenseTrackingApp/ExpenseTrackingApp/Controllers/ExpenseCardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12"
+                  endingLineNumber = "12">
+               </Location>
+               <Location
+                  uuid = "BBB00070-1537-4E21-838C-2A7F2DB63E28 - c38b9124e84da4c3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ExpenseTrackingApp.ExpenseCardView.expense.modify : Swift.Optional&lt;ExpenseTrackingApp.Expense&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "ExpenseTrackingApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ravishka/Documents/MADD/Projects/ExpenseTrackingApp/%3Ccompiler-generated%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

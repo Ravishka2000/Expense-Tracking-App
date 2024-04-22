@@ -10,11 +10,11 @@ import CoreData
 
 class AddViewController: UIViewController {
 	
-	private var titleLabel: UILabel!
-	private var titleTextField: UITextField!
+	var titleLabel: UILabel!
+	var titleTextField: UITextField!
 	private var subtitleLabel: UILabel!
 	private var subtitleTextField: UITextField!
-	private var amountLabel: UILabel!
+	var amountLabel: UILabel!
 	private var amountStackView: UIStackView!
 	private var amountTextField: UITextField!
 	private var increaseButton: UIButton!

@@ -10,11 +10,11 @@ import CoreData
 
 class ExpenseViewController: UIViewController {
 	
-	private var summaryLabel: UILabel!
-	private var scrollView: UIScrollView!
-	private var stackView: UIStackView!
-	private var refreshControl: UIRefreshControl!
-	private var sortedExpenses: [Expense] = []
+	var summaryLabel: UILabel!
+	var scrollView: UIScrollView!
+	var stackView: UIStackView!
+	var refreshControl: UIRefreshControl!
+	var sortedExpenses: [Expense] = []
 	
 	private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 	
@@ -95,7 +95,7 @@ class ExpenseViewController: UIViewController {
 			
 			let sectionLabel = UILabel()
 			sectionLabel.text = sectionTitle
-			sectionLabel.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+			sectionLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
 			sectionLabel.textColor = .systemGray
 			stackView.addArrangedSubview(sectionLabel)
 			

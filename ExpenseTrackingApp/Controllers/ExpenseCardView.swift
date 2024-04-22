@@ -14,8 +14,6 @@ class ExpenseCardView: UIView {
 	var amountLabel: UILabel!
 	var categoryLabel: UILabel!
 	var createdAtLabel: UILabel!
-	var editButton: UIButton!
-	var deleteButton: UIButton!
 	
 	var parentViewController: UIViewController?
 	
@@ -24,6 +22,10 @@ class ExpenseCardView: UIView {
 		self.expense = expense
 		self.parentViewController = parentViewController
 		setupUI()
+		
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cardTapped))
+		self.addGestureRecognizer(tapGesture)
+		self.isUserInteractionEnabled = true
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -31,33 +33,31 @@ class ExpenseCardView: UIView {
 	}
 	
 	func setupUI() {
-		backgroundColor = .white
-		layer.cornerRadius = 20
-		layer.masksToBounds = true
+		backgroundColor = UIColor(white: 1.0, alpha: 0.95)
+		layer.cornerRadius = 15
+		layer.shadowColor = UIColor.black.cgColor
+		layer.shadowOpacity = 0.3
+		layer.shadowOffset = CGSize(width: 0, height: 2)
+		layer.shadowRadius = 4
 		
-		titleLabel = createLabel(text: expense.title, font: UIFont.boldSystemFont(ofSize: 24), alignment: .left)
-		amountLabel = createLabel(text: String(format: "$%.2f", expense.amount), font: UIFont.boldSystemFont(ofSize: 24), alignment: .right)
-		categoryLabel = createLabel(text: expense.category ?? "", font: UIFont.systemFont(ofSize: 16), alignment: .left)
+		titleLabel = createLabel(text: expense.title, font: UIFont.boldSystemFont(ofSize: 18), alignment: .left)
+		amountLabel = createLabel(text: String(format: "$%.2f", expense.amount), font: UIFont.boldSystemFont(ofSize: 18), alignment: .right)
+		categoryLabel = createBadgeLabel(text: expense.category ?? "")
 		createdAtLabel = createLabel(text: formatDate(expense.createdAt), font: UIFont.systemFont(ofSize: 14), alignment: .right)
-		editButton = createButton(title: "Edit", backgroundColor: .systemBlue, action: #selector(editButtonTapped))
-		deleteButton = createButton(title: "Delete", backgroundColor: .systemRed, action: #selector(deleteButtonTapped))
 		
 		let labelStackView1 = createStackView(arrangedSubviews: [titleLabel, amountLabel])
-		let labelStackView2 = createStackView(arrangedSubviews: [categoryLabel, createdAtLabel], spacing: 50)
-		let buttonStackView = createStackView(arrangedSubviews: [editButton, deleteButton], spacing: 50)
+		let labelStackView2 = createStackView(arrangedSubviews: [categoryLabel, createdAtLabel], spacing: 10)
 		
-		let contentStackView = createStackView(arrangedSubviews: [labelStackView1, labelStackView2, buttonStackView], axis: .vertical, spacing: 20)
+		let contentStackView = createStackView(arrangedSubviews: [labelStackView1, labelStackView2], axis: .vertical, spacing: 10)
 		
 		addSubview(contentStackView)
 		
 		contentStackView.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
-			contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-			contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-			contentStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-			contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
-			editButton.widthAnchor.constraint(equalTo: deleteButton.widthAnchor),
-			categoryLabel.widthAnchor.constraint(equalTo: createdAtLabel.widthAnchor)
+			contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+			contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+			contentStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+			contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15)
 		])
 	}
 	
@@ -70,14 +70,29 @@ class ExpenseCardView: UIView {
 		return label
 	}
 	
-	private func createButton(title: String, backgroundColor: UIColor, action: Selector) -> UIButton {
-		let button = UIButton(type: .system)
-		button.setTitle(title, for: .normal)
-		button.setTitleColor(.white, for: .normal)
-		button.backgroundColor = backgroundColor
-		button.layer.cornerRadius = 10
-		button.addTarget(self, action: action, for: .touchUpInside)
-		return button
+	private func createBadgeLabel(text: String?) -> UILabel {
+		let label = UILabel()
+		label.text = text
+		label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+		label.textAlignment = .center
+		label.textColor = .white
+		label.layer.cornerRadius = 15
+		label.layer.masksToBounds = true
+		
+		switch text {
+		case "Grocery":
+			label.backgroundColor = UIColor.systemGreen
+		case "Electronics":
+			label.backgroundColor = UIColor.systemOrange
+		case "Foods":
+			label.backgroundColor = UIColor.systemBlue
+		default:
+			label.backgroundColor = UIColor.systemGray
+		}
+		
+		label.sizeToFit()
+		label.layer.cornerRadius = 18
+		return label
 	}
 	
 	private func createStackView(arrangedSubviews: [UIView], axis: NSLayoutConstraint.Axis = .horizontal, spacing: CGFloat = 0) -> UIStackView {
@@ -97,8 +112,26 @@ class ExpenseCardView: UIView {
 		formatter.timeStyle = .none
 		return formatter.string(from: date)
 	}
+	
+	@objc private func cardTapped() {
+		let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 		
-	@objc private func editButtonTapped() {
+		let editAction = UIAlertAction(title: "Edit", style: .default) { (_) in
+			self.editExpense()
+		}
+		let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (_) in
+			self.deleteExpense()
+		}
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		
+		actionSheet.addAction(editAction)
+		actionSheet.addAction(deleteAction)
+		actionSheet.addAction(cancelAction)
+		
+		parentViewController?.present(actionSheet, animated: true, completion: nil)
+	}
+	
+	private func editExpense() {
 		let alertController = UIAlertController(title: "Edit Expense", message: nil, preferredStyle: .alert)
 		alertController.addTextField { textField in
 			textField.placeholder = "Title"
@@ -131,15 +164,7 @@ class ExpenseCardView: UIView {
 			if let context = self.expense.managedObjectContext {
 				do {
 					try context.save()
-					UIView.transition(with: self.titleLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
-						self.titleLabel.text = title
-					})
-					UIView.transition(with: self.amountLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
-						self.amountLabel.text = String(format: "$%.2f", amount)
-					})
-					UIView.transition(with: self.categoryLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
-						self.categoryLabel.text = category
-					})
+					self.updateUI()
 				} catch {
 					self.showErrorAlert(message: "Failed to save changes.")
 				}
@@ -152,7 +177,27 @@ class ExpenseCardView: UIView {
 		parentViewController?.present(alertController, animated: true, completion: nil)
 	}
 	
-	@objc private func deleteButtonTapped() {
+	private func updateUI() {
+		titleLabel.text = expense.title
+		amountLabel.text = String(format: "$%.2f", expense.amount)
+		categoryLabel.text = expense.category
+		updateCategoryBadge(expense.category)
+	}
+	
+	private func updateCategoryBadge(_ category: String?) {
+		switch category {
+		case "Grocery":
+			categoryLabel.backgroundColor = UIColor.systemGreen
+		case "Electronics":
+			categoryLabel.backgroundColor = UIColor.systemOrange
+		case "Foods":
+			categoryLabel.backgroundColor = UIColor.systemBlue
+		default:
+			categoryLabel.backgroundColor = UIColor.systemGray
+		}
+	}
+	
+	private func deleteExpense() {
 		let confirmationAlert = UIAlertController(title: "Confirm Deletion", message: "Are you sure you want to delete this expense?", preferredStyle: .alert)
 		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 		let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
@@ -182,5 +227,4 @@ class ExpenseCardView: UIView {
 		errorAlert.addAction(okAction)
 		parentViewController?.present(errorAlert, animated: true, completion: nil)
 	}
-
 }

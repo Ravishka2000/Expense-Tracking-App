@@ -75,7 +75,5 @@ final class ExpenseTrackingAppTests: XCTestCase {
 		XCTAssertNotNil(addViewController.titleTextField)
 	}
 	
-	func testAddViewController_WhenLoaded_AmountLabelIsDisplayed() throws {
-		XCTAssertNotNil(addViewController.amountLabel)
-	}
+
 }

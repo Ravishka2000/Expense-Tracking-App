@@ -63,7 +63,7 @@
         <scene sceneID="ei1-XH-g1O">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7yu-8l-L2O" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Expenses" image="wallet.pass" catalog="system" selectedImage="wallet.pass" id="b8g-uc-LhQ"/>
+                    <tabBarItem key="tabBarItem" title="Expenses" image="dollarsign.square.fill" catalog="system" selectedImage="dollarsign.square" id="b8g-uc-LhQ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="Faw-b0-Yoc">
                         <rect key="frame" x="0.0" y="59" width="393" height="96"/>
@@ -82,7 +82,7 @@
         <scene sceneID="TXP-Kv-MEV">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rot-Nz-QA2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Add" image="scope" catalog="system" selectedImage="scope" id="afi-xh-6fm"/>
+                    <tabBarItem key="tabBarItem" title="Add" image="plus.app.fill" catalog="system" selectedImage="plus.app" id="afi-xh-6fm"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="Hdc-hd-fMz">
                         <rect key="frame" x="0.0" y="59" width="393" height="96"/>
@@ -99,8 +99,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="scope" catalog="system" width="128" height="124"/>
-        <image name="wallet.pass" catalog="system" width="115" height="128"/>
+        <image name="dollarsign.square" catalog="system" width="128" height="114"/>
+        <image name="dollarsign.square.fill" catalog="system" width="128" height="114"/>
+        <image name="plus.app" catalog="system" width="128" height="114"/>
+        <image name="plus.app.fill" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
