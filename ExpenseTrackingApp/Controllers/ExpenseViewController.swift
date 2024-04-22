@@ -16,7 +16,7 @@ class ExpenseViewController: UIViewController {
 	var refreshControl: UIRefreshControl!
 	var sortedExpenses: [Expense] = []
 	
-	private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+	public let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -24,7 +24,7 @@ class ExpenseViewController: UIViewController {
 		fetchExpenses()
 	}
 	
-	private func setupUI() {
+	public func setupUI() {
 		view.backgroundColor = .systemGray6
 		title = "Expenses"
 		
@@ -71,7 +71,7 @@ class ExpenseViewController: UIViewController {
 		])
 	}
 	
-	private func fetchExpenses() {
+	public func fetchExpenses() {
 		do {
 			let expenses = try context.fetch(Expense.fetchRequest()) as! [Expense]
 			sortedExpenses = expenses.sorted { $0.createdAt! > $1.createdAt! }
@@ -81,7 +81,7 @@ class ExpenseViewController: UIViewController {
 		}
 	}
 	
-	private func updateUI(with expenses: [Expense]) {
+	public func updateUI(with expenses: [Expense]) {
 		stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
 		
 		let groupedExpenses = groupExpensesByDate(expenses)
@@ -109,7 +109,7 @@ class ExpenseViewController: UIViewController {
 		summaryLabel.text = String(format: "Total Expenses: $%.2f", totalExpenses)
 	}
 	
-	private func groupExpensesByDate(_ expenses: [Expense]) -> [String: [Expense]] {
+	public func groupExpensesByDate(_ expenses: [Expense]) -> [String: [Expense]] {
 		var groupedExpenses = [String: [Expense]]()
 		
 		let dateFormatter = DateFormatter()
@@ -129,12 +129,12 @@ class ExpenseViewController: UIViewController {
 		return groupedExpenses
 	}
 	
-	@objc private func refreshData() {
+	@objc public func refreshData() {
 		fetchExpenses()
 		refreshControl.endRefreshing()
 	}
 	
-	private func showAlert(title: String, message: String) {
+	public func showAlert(title: String, message: String) {
 		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
 		alertController.addAction(okAction)

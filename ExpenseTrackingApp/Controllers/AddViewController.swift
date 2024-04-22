@@ -10,55 +10,60 @@ import CoreData
 
 class AddViewController: UIViewController {
 	
-	private var titleLabel: UILabel!
-	private var titleTextField: UITextField!
-	private var subtitleLabel: UILabel!
-	private var subtitleTextField: UITextField!
-	private var amountLabel: UILabel!
-	private var amountTextField: UITextField!
-	private var increaseButton: UIButton!
-	private var decreaseButton: UIButton!
-	private var categoryLabel: UILabel!
-	private var categoryTextField: UITextField!
-	private var createdAtLabel: UILabel!
-	private var createdAtTextField: UITextField!
-	private var saveButton: UIButton!
+	public var titleLabel: UILabel!
+	public var titleTextField: UITextField!
+	public var subtitleLabel: UILabel!
+	public var subtitleTextField: UITextField!
+	public var amountLabel: UILabel!
+	public var amountTextField: UITextField!
+	public var increaseButton: UIButton!
+	public var decreaseButton: UIButton!
+	public var categoryLabel: UILabel!
+	public var categoryTextField: UITextField!
+	public var createdAtLabel: UILabel!
+	public var createdAtTextField: UITextField!
+	public var saveButton: UIButton!
 	
-	private var categoryPicker: UIPickerView!
-	private var datePicker: UIDatePicker!
+	public var categoryPicker: UIPickerView!
+	public var datePicker: UIDatePicker!
 	
-	private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+	public let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 	
-	private let dateFormatter: DateFormatter = {
+	public let dateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.dateStyle = .medium
 		formatter.timeStyle = .none
 		return formatter
 	}()
 	
-	private let categories = ["Grocery", "Electronics", "Foods", "Others"]
+	public let categories = ["Grocery", "Electronics", "Foods", "Others"]
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupUI()
 	}
 	
-	private func setupUI() {
+	public func setupUI() {
 		title = "Add Expense"
 		view.backgroundColor = .systemGray6
 		
 		titleLabel = createLabel(withText: "Title")
 		titleTextField = createTextField()
+		titleTextField.accessibilityIdentifier = "TitleTextField" // Set accessibility identifier
 		
 		subtitleLabel = createLabel(withText: "Subtitle")
 		subtitleTextField = createTextField()
+		subtitleTextField.accessibilityIdentifier = "SubtitleTextField" // Set accessibility identifier
 		
 		amountLabel = createLabel(withText: "Amount")
 		amountTextField = createTextField()
+		amountTextField.accessibilityIdentifier = "AmountTextField" // Set accessibility identifier
 		amountTextField.keyboardType = .decimalPad
 		
 		increaseButton = createButton(withTitle: "+")
+		increaseButton.accessibilityIdentifier = "IncreaseButton" // Set accessibility identifier
 		decreaseButton = createButton(withTitle: "-")
+		decreaseButton.accessibilityIdentifier = "DecreaseButton" // Set accessibility identifier
 		let amountStackView = UIStackView(arrangedSubviews: [decreaseButton, amountTextField, increaseButton])
 		amountStackView.axis = .horizontal
 		amountStackView.spacing = 8
@@ -68,6 +73,7 @@ class AddViewController: UIViewController {
 		categoryPicker.dataSource = self
 		categoryPicker.delegate = self
 		categoryTextField = createTextField()
+		categoryTextField.accessibilityIdentifier = "CategoryTextField" // Set accessibility identifier
 		categoryTextField.inputView = categoryPicker
 		
 		createdAtLabel = createLabel(withText: "Created At")
@@ -75,6 +81,7 @@ class AddViewController: UIViewController {
 		datePicker.datePickerMode = .date
 		datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
 		createdAtTextField = createTextField()
+		createdAtTextField.accessibilityIdentifier = "CreatedAtTextField" // Set accessibility identifier
 		createdAtTextField.inputView = datePicker
 		
 		saveButton = UIButton(type: .system)
@@ -83,6 +90,7 @@ class AddViewController: UIViewController {
 		saveButton.backgroundColor = UIColor(red: 0, green: 0.6784, blue: 0.7098, alpha: 1.0)
 		saveButton.layer.cornerRadius = 5
 		saveButton.addTarget(self, action: #selector(saveExpense), for: .touchUpInside)
+		saveButton.accessibilityIdentifier = "SaveButton" // Set accessibility identifier
 		
 		let categoryToolbar = UIToolbar()
 		categoryToolbar.barStyle = .default
@@ -114,8 +122,9 @@ class AddViewController: UIViewController {
 			stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
 		])
 	}
+
 	
-	private func createLabel(withText text: String) -> UILabel {
+	public func createLabel(withText text: String) -> UILabel {
 		let label = UILabel()
 		label.text = text
 		label.textColor = .darkGray
@@ -123,7 +132,7 @@ class AddViewController: UIViewController {
 		return label
 	}
 	
-	private func createTextField() -> UITextField {
+	public func createTextField() -> UITextField {
 		let textField = UITextField()
 		textField.borderStyle = .roundedRect
 		textField.translatesAutoresizingMaskIntoConstraints = false
@@ -132,7 +141,7 @@ class AddViewController: UIViewController {
 		return textField
 	}
 	
-	private func createButton(withTitle title: String) -> UIButton {
+	public func createButton(withTitle title: String) -> UIButton {
 		let button = UIButton(type: .system)
 		button.setTitle(title, for: .normal)
 		button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
@@ -144,12 +153,12 @@ class AddViewController: UIViewController {
 		return button
 	}
 	
-	@objc private func datePickerValueChanged(sender: UIDatePicker) {
+	@objc public func datePickerValueChanged(sender: UIDatePicker) {
 		let formattedDate = dateFormatter.string(from: sender.date)
 		createdAtTextField.text = formattedDate
 	}
 	
-	@objc private func saveExpense() {
+	@objc public func saveExpense() {
 		guard let title = titleTextField.text, !title.isEmpty,
 			  let subtitle = subtitleTextField.text, !subtitle.isEmpty,
 			  let amountString = amountTextField.text, let amount = Double(amountString),
@@ -176,7 +185,7 @@ class AddViewController: UIViewController {
 		}
 	}
 	
-	@objc private func amountButtonTapped(_ sender: UIButton) {
+	@objc public func amountButtonTapped(_ sender: UIButton) {
 		guard var amount = Double(amountTextField.text ?? "0") else { return }
 		if sender == increaseButton {
 			amount += 1.0
@@ -189,7 +198,7 @@ class AddViewController: UIViewController {
 		amountTextField.text = String(format: "%.2f", amount)
 	}
 	
-	@objc private func categoryPickerDone() {
+	@objc public func categoryPickerDone() {
 		if categoryTextField.text == "" {
 			categoryTextField.text = categories[0]
 			pickerView(categoryPicker, didSelectRow: 0, inComponent: 0)
@@ -197,12 +206,12 @@ class AddViewController: UIViewController {
 		view.endEditing(true)
 	}
 	
-	@objc private func datePickerDone() {
+	@objc public func datePickerDone() {
 		createdAtTextField.text = dateFormatter.string(from: Date())
 		view.endEditing(true)
 	}
 
-	private func clearTextFields() {
+	public func clearTextFields() {
 		titleTextField.text = ""
 		subtitleTextField.text = ""
 		amountTextField.text = ""
@@ -210,8 +219,8 @@ class AddViewController: UIViewController {
 		createdAtTextField.text = ""
 	}
 	
-	private func showAlert(message: String) {
-		let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+	public func showAlert(message: String) {
+		let alert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 		present(alert, animated: true, completion: nil)
 	}

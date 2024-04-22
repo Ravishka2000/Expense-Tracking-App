@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "C15A90CC-0891-4C50-B2D5-CCE136BAF601",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:ExpenseTrackingApp.xcodeproj",
+        "identifier" : "ECCD1BD52BC11F0C00E06757",
+        "name" : "ExpenseTrackingAppTests"
+      }
+    }
+  ],
+  "version" : 1
+}

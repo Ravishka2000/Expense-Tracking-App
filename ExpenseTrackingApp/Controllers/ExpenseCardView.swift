@@ -58,7 +58,7 @@ class ExpenseCardView: UIView {
 		])
 	}
 	
-	private func createLabel(text: String?, font: UIFont, alignment: NSTextAlignment) -> UILabel {
+	public func createLabel(text: String?, font: UIFont, alignment: NSTextAlignment) -> UILabel {
 		let label = UILabel()
 		label.text = text
 		label.font = font
@@ -67,7 +67,7 @@ class ExpenseCardView: UIView {
 		return label
 	}
 	
-	private func createBadgeLabel(text: String?) -> UILabel {
+	public func createBadgeLabel(text: String?) -> UILabel {
 		let label = UILabel()
 		label.text = text
 		label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
@@ -92,7 +92,7 @@ class ExpenseCardView: UIView {
 		return label
 	}
 	
-	private func createStackView(arrangedSubviews: [UIView], axis: NSLayoutConstraint.Axis = .horizontal, spacing: CGFloat = 0) -> UIStackView {
+	public func createStackView(arrangedSubviews: [UIView], axis: NSLayoutConstraint.Axis = .horizontal, spacing: CGFloat = 0) -> UIStackView {
 		let stackView = UIStackView(arrangedSubviews: arrangedSubviews)
 		stackView.axis = axis
 		stackView.spacing = spacing
@@ -100,7 +100,7 @@ class ExpenseCardView: UIView {
 		return stackView
 	}
 	
-	private func formatDate(_ date: Date?) -> String {
+	public func formatDate(_ date: Date?) -> String {
 		guard let date = date else {
 			return ""
 		}
@@ -110,7 +110,7 @@ class ExpenseCardView: UIView {
 		return formatter.string(from: date)
 	}
 	
-	@objc private func cardTapped() {
+	@objc public func cardTapped() {
 		let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 		
 		let editAction = UIAlertAction(title: "Edit", style: .default) { (_) in
@@ -128,7 +128,7 @@ class ExpenseCardView: UIView {
 		parentViewController?.present(actionSheet, animated: true, completion: nil)
 	}
 	
-	private func editExpense() {
+	public func editExpense() {
 		let alertController = UIAlertController(title: "Edit Expense", message: nil, preferredStyle: .alert)
 		alertController.addTextField { textField in
 			textField.placeholder = "Title"
@@ -174,14 +174,14 @@ class ExpenseCardView: UIView {
 		parentViewController?.present(alertController, animated: true, completion: nil)
 	}
 	
-	private func updateUI() {
+	public func updateUI() {
 		titleLabel.text = expense.title
 		amountLabel.text = String(format: "$%.2f", expense.amount)
 		categoryLabel.text = expense.category
 		updateCategoryBadge(expense.category)
 	}
 	
-	private func updateCategoryBadge(_ category: String?) {
+	public func updateCategoryBadge(_ category: String?) {
 		switch category {
 		case "Grocery":
 			categoryLabel.backgroundColor = UIColor(red: 0.2706, green: 0.098, blue: 0.3216, alpha: 1.0)
@@ -194,7 +194,7 @@ class ExpenseCardView: UIView {
 		}
 	}
 	
-	private func deleteExpense() {
+	public func deleteExpense() {
 		let confirmationAlert = UIAlertController(title: "Confirm Deletion", message: "Are you sure you want to delete this expense?", preferredStyle: .alert)
 		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 		let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
@@ -218,7 +218,7 @@ class ExpenseCardView: UIView {
 		parentViewController?.present(confirmationAlert, animated: true, completion: nil)
 	}
 	
-	private func showErrorAlert(message: String) {
+	public func showErrorAlert(message: String) {
 		let errorAlert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
 		let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
 		errorAlert.addAction(okAction)
