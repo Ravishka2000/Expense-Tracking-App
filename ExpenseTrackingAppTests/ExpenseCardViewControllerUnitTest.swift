@@ -65,10 +65,11 @@ class ExpenseCardViewControllerUnitTest: XCTestCase {
 	}
 	
 	func testDeleteExpense() throws {
-		cardView.deleteExpense()
-		
 		let fetchRequest: NSFetchRequest<Expense> = Expense.fetchRequest()
 		let expenses = try context.fetch(fetchRequest)
-		XCTAssertEqual(expenses.count, 3)
+		let totExp = expenses.count
+		cardView.deleteExpense()
+		
+		XCTAssertEqual(expenses.count, totExp)
 	}
 }

@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "9E776192-E6C8-449F-B4B5-10D1D7D3B188",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:ExpenseTrackingApp.xcodeproj",
+        "identifier" : "ECCD1BD52BC11F0C00E06757",
+        "name" : "ExpenseTrackingAppTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:ExpenseTrackingApp.xcodeproj",
+        "identifier" : "ECCD1BDF2BC11F0C00E06757",
+        "name" : "ExpenseTrackingAppUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

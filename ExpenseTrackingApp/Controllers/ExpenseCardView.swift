@@ -42,6 +42,12 @@ class ExpenseCardView: UIView {
 		categoryLabel = createBadgeLabel(text: expense.category ?? "")
 		createdAtLabel = createLabel(text: formatDate(expense.createdAt), font: UIFont.systemFont(ofSize: 14), alignment: .right)
 		
+		titleLabel.accessibilityIdentifier = "expenseTitle"
+		amountLabel.accessibilityIdentifier = "expenseAmount"
+		categoryLabel.accessibilityIdentifier = "expenseCategory"
+		createdAtLabel.accessibilityIdentifier = "expenseCreatedAt"
+
+		
 		let labelStackView1 = createStackView(arrangedSubviews: [titleLabel, amountLabel])
 		let labelStackView2 = createStackView(arrangedSubviews: [categoryLabel, createdAtLabel], spacing: 10)
 		
@@ -111,7 +117,7 @@ class ExpenseCardView: UIView {
 	}
 	
 	@objc public func cardTapped() {
-		let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+		let actionSheet = UIAlertController(title: "Modify Expense", message: nil, preferredStyle: .actionSheet)
 		
 		let editAction = UIAlertAction(title: "Edit", style: .default) { (_) in
 			self.editExpense()

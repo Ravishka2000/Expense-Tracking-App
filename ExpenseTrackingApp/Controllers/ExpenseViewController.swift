@@ -24,6 +24,11 @@ class ExpenseViewController: UIViewController {
 		fetchExpenses()
 	}
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		fetchExpenses()
+	}
+	
 	public func setupUI() {
 		view.backgroundColor = .systemGray6
 		title = "Expenses"
@@ -32,6 +37,7 @@ class ExpenseViewController: UIViewController {
 		summaryLabel.text = "Total Expenses: $0.00"
 		summaryLabel.font = UIFont(name: "AvenirNext-Bold", size: 22)
 		summaryLabel.textAlignment = .center
+		summaryLabel.accessibilityIdentifier = "totalExpensesLabel"
 		summaryLabel.textColor = UIColor(red: 0.2235, green: 0.2431, blue: 0.2745, alpha: 1.0)
 		summaryLabel.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(summaryLabel)

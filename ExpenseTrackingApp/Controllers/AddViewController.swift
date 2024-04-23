@@ -207,7 +207,7 @@ class AddViewController: UIViewController {
 	}
 	
 	@objc public func datePickerDone() {
-		createdAtTextField.text = dateFormatter.string(from: Date())
+		createdAtTextField.text = dateFormatter.string(from: datePicker.date)
 		view.endEditing(true)
 	}
 

@@ -43,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EC6733282BD78E320024F9B8 /* UnitAndUITest.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitAndUITest.xctestplan; sourceTree = "<group>"; };
 		EC6856AC2BC424E7008D647B /* Expense+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Expense+CoreDataClass.swift"; sourceTree = "<group>"; };
 		EC6856AD2BC424E7008D647B /* Expense+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Expense+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		EC6856B52BC42CAF008D647B /* ExpenseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseCardView.swift; sourceTree = "<group>"; };
@@ -123,6 +124,7 @@
 		ECCD1BB42BC11F0A00E06757 = {
 			isa = PBXGroup;
 			children = (
+				EC6733282BD78E320024F9B8 /* UnitAndUITest.xctestplan */,
 				ECF5CC512BD6E359003D2208 /* UITest.xctestplan */,
 				ECF5CC502BD6DA61003D2208 /* UnitTest.xctestplan */,
 				ECCD1BBF2BC11F0A00E06757 /* ExpenseTrackingApp */,
